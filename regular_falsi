@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+// Defining function f(x) = x log(x) − 1.2
+double f(double x)
+{
+    return x * log(x) - 1.2;
+}
+// Condition check
+int falsicond(double a, double b)
+{
+    if (a <= 0 || b <= 0)
+        return 0;
+
+    if (f(a) * f(b) < 0)
+        return 1;
+    else
+        return 0;
+}
+// Regular Falsi algorithm
+double regulafalsi(double a, double b, double tol = 1.0e-6, int max_iter = 1000)
+{
+    double c;
+    for (int i = 0; i < max_iter; i++)
+    {
+        c = b - (f(b) * (b - a)) / (f(b) - f(a));
+        if (fabs(f(c)) < tol)
+            return c;
+        if (f(c) * f(a) < 0)
+            b = c;
+        else
+            a = c;
+    }
+    return c;
+}
+int main()
+{
+    double a, b;
+    printf("Enter the value of a and b (both > 0): ");
+    scanf("%lf %lf", &a, &b);
+    if (falsicond(a, b)){
+        double root = regulafalsi(a, b);
+        printf("Root = %f\n", root);
+    }
+    else{
+        printf("Method not applicable for given values");
+    }
+    return 0;
+}
